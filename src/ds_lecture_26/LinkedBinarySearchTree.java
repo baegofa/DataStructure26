@@ -86,12 +86,17 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 				inorder(x.right, result);
 		}
 	}
-	protected Node<K,V> inSuc() {
-		
-		return null;
+	
+	protected Node<K,V> inSuc(Node<K,V> x) {
+		ArrayList<Node<K,V>> result = new ArrayList<Node<K,V>>();
+		inorder(x, result);
+		int temp = result.indexOf(x);
+		return result.get(temp+1);
 	}
-	protected Node<K,V> inPre() {
-		
-		return null;
+	protected Node<K,V> inPre(Node<K,V> x) {
+		ArrayList<Node<K,V>> result = new ArrayList<Node<K,V>>();
+		inorder(x, result);
+		int temp = result.indexOf(x);
+		return result.get(temp-1);
 	}
 }
