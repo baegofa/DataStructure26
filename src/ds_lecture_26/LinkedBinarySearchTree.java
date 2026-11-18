@@ -82,8 +82,6 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 		if(key == root.key)
 			return;
 		
-		
-		
 		deleteNode = treeSearch(key);
 		replaceNode = inSuc(deleteNode);
 		
