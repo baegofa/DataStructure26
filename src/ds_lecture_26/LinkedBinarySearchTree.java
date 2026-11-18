@@ -88,8 +88,15 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 		replaceNode.parent.left = null;
 		replaceNode.parent.left = replaceNode.right;
 		
+		replaceNode.parent = deleteNode.parent;
+		replaceNode.left = deleteNode.left;
+		replaceNode.right = deleteNode.right;
 		
-		
+		if(deleteNode.parent.left.key == deleteNode.key)
+			deleteNode.parent.left = replaceNode;
+		else
+			deleteNode.parent.right = replaceNode;
+			
 	}
 	private void inorder(Node<K,V> x, ArrayList<Node<K,V>> result) {
 		if(x == null)
