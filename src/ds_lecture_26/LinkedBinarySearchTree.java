@@ -67,11 +67,29 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 		
 		else {
 			Node<K,V> newNode = new Node<K,V>(key,val);
-			if(cmp < 0)
+			if(cmp < 0) {
 				x.left = newNode;
-			else
+				newNode.parent = x;
+			}
+			else {
 				x.right = newNode;
+				newNode.parent = x;
+			}
 		}
+	}
+	
+	// replaceNode의 left는 deleteNode의 insucc이므로 무조건 null이라 right를 parent의 left에 연결
+	public void delete(K key, V val) {
+		Node<K,V> replaceNode, deleteNode;
+		
+		deleteNode = treeSearch(key);
+		replaceNode = inSuc(deleteNode);
+		
+		replaceNode.parent.left = null;
+		replaceNode.parent.left = replaceNode.right;
+		
+		
+		
 	}
 	private void inorder(Node<K,V> x, ArrayList<Node<K,V>> result) {
 		if(x == null)
@@ -86,7 +104,6 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 				inorder(x.right, result);
 		}
 	}
-	
 	protected Node<K,V> inSuc(Node<K,V> x) {
 		ArrayList<Node<K,V>> result = new ArrayList<Node<K,V>>();
 		inorder(x, result);
@@ -99,4 +116,6 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 		int temp = result.indexOf(x);
 		return result.get(temp-1);
 	}
+	
+	
 }
