@@ -68,9 +68,16 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 	
 	// replaceNode의 left는 deleteNode의 insucc이므로 무조건 null이라 right를 parent의 left에 연결
 	public void delete(K key) {
-		Node<K,V> deleteNode = treeSearch(key), replaceNode = inSuc(deleteNode);
+		//announce variable
+		Node<K,V> deleteNode = treeSearch(key), replaceNode;
+		if(deleteNode != null) replaceNode = inSuc(deleteNode);
+		else return;
+		
 		if(root == null) return;
-		if(key == root.key) return;
+		if(key == root.key) {
+			root = null;
+			return;
+		}
 		
 		replaceNode.parent.left = replaceNode.right;
 		
