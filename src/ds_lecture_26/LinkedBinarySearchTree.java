@@ -67,32 +67,24 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 	}
 	
 	public void delete(K key) {
-		
-		if(key.equals(root.key)) {
-			root = null;
-			return;
-		}
-		
-		//announce variable
-		Node<K,V> deleteNode = treeSearch(key), replaceNode;
-		if(deleteNode != null && deleteNode.key.equals(key)) replaceNode = inSuc(deleteNode);
-		else return;
-		
-		replaceNode.parent.left = replaceNode.right;
-		
-		replaceNode.parent = deleteNode.parent;
-		replaceNode.left = deleteNode.left;
-		if(deleteNode.right != replaceNode) 
-			replaceNode.right = deleteNode.right;
-		else
-			replaceNode.right = null;
-		
-		if(deleteNode.parent.left == deleteNode)
-			deleteNode.parent.left = replaceNode;
-		else
-			deleteNode.parent.right = replaceNode;
-			
+	    Node<K,V> x = treeSearch(key);
+	    if (x == null || x.key.compareTo(key) != 0) return;
+
+	    if (x.left != null && x.right != null) {   // 자식이 둘이면 successor 내용 복사
+	        Node<K,V> s = inSuc(x);
+	        x.key = s.key;
+	        x.val = s.val;
+	        x = s;                                 // 자식이 최대 1개인 노드를 제거
+	    }
+
+	    Node<K,V> child = x.left != null ? x.left : x.right;
+	    if (child != null) child.parent = x.parent;
+
+	    if (x.parent == null) root = child;
+	    else if (x == x.parent.left) x.parent.left = child;
+	    else x.parent.right = child;
 	}
+	
 	private void inorder(Node<K,V> x, ArrayList<Node<K,V>> result) {
 		if(x == null)
 			return;
@@ -107,11 +99,12 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 		}
 	}
 	protected Node<K,V> inSuc(Node<K,V> x) {
-		if(isLeaf(x)) return null;
+		if(isLeaf(x)) return null; // have to fix
 		if(x.right == null && x.left != null) return null;
 		for(x = x.right; x.left != null; x = x.left);
 		return x;
 	}
+	//have to fix
 	protected Node<K,V> inPre(Node<K,V> x) {
 		ArrayList<Node<K,V>> result = new ArrayList<Node<K,V>>();
 		inorder(x, result);
