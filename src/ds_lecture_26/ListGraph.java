@@ -3,7 +3,6 @@ package ds_lecture_26;
 import java.util.LinkedList;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ListGraph implements Graph {
 	private LinkedList<Integer>[] adj, inv;
