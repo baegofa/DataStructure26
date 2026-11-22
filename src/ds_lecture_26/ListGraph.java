@@ -1,6 +1,9 @@
 package ds_lecture_26;
 
 import java.util.LinkedList;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ListGraph implements Graph {
 	private LinkedList<Integer>[] adj, inv;
@@ -10,6 +13,7 @@ public class ListGraph implements Graph {
 
 	//@SuppressWarnings("unchecked")
 	//LinkedList[] needs Generic type for safety
+	@SuppressWarnings("unchecked")
 	public ListGraph(int n, boolean directed) {
 		N = n;
 		this.directed = directed;
@@ -65,6 +69,58 @@ public class ListGraph implements Graph {
 			if(x==w)
 				return true;
 		return false;
+	}
+	
+	public Iterable<Integer> dfs(int v){
+		ArrayList<Integer> L = new ArrayList<Integer>(size());
+		boolean[] visited = new boolean[size()];
+		dfs(v,L,visited);
+		return L;
+	}
+	
+	private void dfs(int v, ArrayList<Integer>L,boolean[] visited) {
+		visited[v] = true;
+		L.add(v);
+		for(int w : adj[v])
+			if(!visited[w]) dfs(w,L,visited);
+	}
+	
+	public Iterable<Integer> bfs(int v){
+		ArrayList<Integer> L = new ArrayList<Integer>(size());
+		boolean[] visited = new boolean[size()];
+		ArrayDeque<Integer> queue = new ArrayDeque<>(size());
+		
+		visited[v] = true;
+		L.add(v);
+		queue.addLast(v);
+		while(!queue.isEmpty()) {
+			int k = queue.pollFirst();
+			for(int w : adj[k])
+				if(!visited[w]) {
+					L.add(w);
+					visited[w] = true;
+					queue.addLast(w);
+				}
+		}
+		return L;
+	}
+	
+	public void connectedComponent() {
+		ArrayList<Integer> L = new ArrayList<Integer>(size());
+		boolean[] visited = new boolean[size()];
+		int count = 0;
+		
+		for(int i = 0; i<size(); i++) {
+			if(!visited[i]) {
+				System.out.println("연결 요소" + count + " ");
+				dfs(i,L,visited);
+				for(int k : L) System.out.println(k + " ");
+				System.out.println();
+				L.clear();
+				count += 1;
+				
+			}
+		}
 	}
 
 }
