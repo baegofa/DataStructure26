@@ -66,24 +66,26 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 		}
 	}
 	
-	// replaceNode의 left는 deleteNode의 insucc이므로 무조건 null이라 right를 parent의 left에 연결
 	public void delete(K key) {
-		//announce variable
-		Node<K,V> deleteNode = treeSearch(key), replaceNode;
-		if(deleteNode != null) replaceNode = inSuc(deleteNode);
-		else return;
 		
-		if(root == null) return;
-		if(key == root.key) {
+		if(key.equals(root.key)) {
 			root = null;
 			return;
 		}
+		
+		//announce variable
+		Node<K,V> deleteNode = treeSearch(key), replaceNode;
+		if(deleteNode != null && deleteNode.key.equals(key)) replaceNode = inSuc(deleteNode);
+		else return;
 		
 		replaceNode.parent.left = replaceNode.right;
 		
 		replaceNode.parent = deleteNode.parent;
 		replaceNode.left = deleteNode.left;
-		replaceNode.right = deleteNode.right;
+		if(deleteNode.right != replaceNode) 
+			replaceNode.right = deleteNode.right;
+		else
+			replaceNode.right = null;
 		
 		if(deleteNode.parent.left == deleteNode)
 			deleteNode.parent.left = replaceNode;
@@ -105,6 +107,8 @@ public class LinkedBinarySearchTree<K extends Comparable<K>,V>{
 		}
 	}
 	protected Node<K,V> inSuc(Node<K,V> x) {
+		if(isLeaf(x)) return null;
+		if(x.right == null && x.left != null) return null;
 		for(x = x.right; x.left != null; x = x.left);
 		return x;
 	}
