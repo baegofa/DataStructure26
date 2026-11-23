@@ -16,7 +16,7 @@ public class SetTree {
 	}
 	
 	//i의 root를 구하는 method
-	int find(int i) {
+	int find(int i) throws IndexOutOfBoundsException{
 		for(;L.get(i)>=0;i = L.get(i));
 		return i;
 	}
@@ -32,6 +32,7 @@ public class SetTree {
 		return root;
 		
 		// 내가 생각한 방식
+		// 평가 : 메모리 할당방식에서 더 비효율적
 //		ArrayList<Integer> temp = new ArrayList<>(size);
 //		for(;L.get(i)>=0;i = L.get(i)) temp.addLast(i);
 //		for(int w : temp) L.set(w, root);
