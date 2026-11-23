@@ -15,11 +15,30 @@ public class SetTree {
 		size = n;
 	}
 	
+	//i의 root를 구하는 method
 	int find(int i) {
-		//i의 root를 구하는 method
 		for(;L.get(i)>=0;i = L.get(i));
 		return i;
 	}
+	
+	//find를 개선 - 단일한 root와 하나의 level에 child를 전부 저장
+	int collapsingFind(int i) {
+		int root = find(i), node, next;
+		//교재 방식
+		for(node = i; node != root && L.get(node) != root; node = next) {
+			next = L.get(node);
+			L.set(node, root);
+		}
+		return root;
+		
+		// 내가 생각한 방식
+//		ArrayList<Integer> temp = new ArrayList<>(size);
+//		for(;L.get(i)>=0;i = L.get(i)) temp.addLast(i);
+//		for(int w : temp) L.set(w, root);
+//		temp.clear();
+//		return root;
+	}
+	
 	void union(int i, int j) {
 		if(i == j) return;
 		//i를 root로 j를 통합
@@ -45,8 +64,5 @@ public class SetTree {
 			L.set(pi, pj);
 		}
 			
-	}
-	int collapsingFind(int i) {
-		return 0;
 	}
 }
