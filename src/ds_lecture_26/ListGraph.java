@@ -77,26 +77,26 @@ public class ListGraph implements Graph {
 		return L;
 	}
 	
-	private void dfs(int v, ArrayList<Integer>L,boolean[] visited) {
+	private void dfs(int v, ArrayList<Integer> L, boolean[] visited) {
+		L.addLast(v);
 		visited[v] = true;
-		L.add(v);
 		for(int w : adj[v])
 			if(!visited[w]) dfs(w,L,visited);
 	}
 	
-	public Iterable<Integer> bfs(int v){
-		ArrayList<Integer> L = new ArrayList<Integer>(size());
+	public Iterable<Integer> bfs(int v) {
+		ArrayList<Integer> L = new ArrayList<>(size());
 		boolean[] visited = new boolean[size()];
 		ArrayDeque<Integer> queue = new ArrayDeque<>(size());
 		
-		visited[v] = true;
-		L.add(v);
+		L.addLast(v);
 		queue.addLast(v);
+		visited[v] = true;
 		while(!queue.isEmpty()) {
 			int k = queue.pollFirst();
 			for(int w : adj[k])
 				if(!visited[w]) {
-					L.add(w);
+					L.addLast(w);
 					visited[w] = true;
 					queue.addLast(w);
 				}
@@ -104,22 +104,23 @@ public class ListGraph implements Graph {
 		return L;
 	}
 	
-	public void connectedComponent() {
-		ArrayList<Integer> L = new ArrayList<Integer>(size());
+	public void connectedComponents() {
+		//ArrayList<Integer> L = new ArrayList<>(size());에서 우변에 <>채우는 것은 차이가 없음
+		ArrayList<Integer> L = new ArrayList<>(size());
 		boolean[] visited = new boolean[size()];
 		int count = 0;
 		
-		for(int i = 0; i<size(); i++) {
+		for(int i = 0; i < size(); i++) {
 			if(!visited[i]) {
-				System.out.println("연결 요소" + count + " ");
+				System.out.println("연결요소"+count+":");
 				dfs(i,L,visited);
-				for(int k : L) System.out.println(k + " ");
+				for(int k : L) {
+					System.out.print(k+" ");
+				}
 				System.out.println();
 				L.clear();
-				count += 1;
-				
+				count++; // i와 차이가 없지 않나? -> if문으로 dfs가 동작할 때만 증가하게 됨.
 			}
 		}
 	}
-
 }
