@@ -21,6 +21,7 @@ public class SetTree {
 		return i;
 	}
 	void union(int i, int j) {
+		if(i == j) return;
 		//i를 root로 j를 통합
 		int pi = find(i);
 		int pj = find(j);
@@ -30,6 +31,7 @@ public class SetTree {
 	
 	//union() 의 개선 버전
 	void weightedUnion(int i, int j) {
+		if (i == j) return;
 		int pi = find(i) , pj = find(j);
 		int temp = L.get(pi) + L.get(pj);
 		
