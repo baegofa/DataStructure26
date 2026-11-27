@@ -1,6 +1,6 @@
 package ds_lecture_26;
 
-public class Edge implements Comparable<Edge>{
+public class Edge{
 	int from, to, weight;
 	
 	public Edge(int from, int to, int weight) {
@@ -10,9 +10,9 @@ public class Edge implements Comparable<Edge>{
 	}
 
 	@Override
-	public int compareTo(Edge o) {
-		if(this.weight > o.weight) return 1;
-		else if(this.weight < o.weight) return -1;
-		else return 0;
+	public String toString() {
+		return "Edge <"+ from + "," + to + ">, weight=" + weight;
 	}
+
+	
 }

@@ -123,4 +123,27 @@ public class ListGraph implements Graph {
 			}
 		}
 	}
+	
+	public Iterable<Integer> topSort(){
+		ArrayList<Integer> list = new ArrayList<>(N);
+		ArrayDeque<Integer> stack = new ArrayDeque<>(N);
+		int[] count = new int[N];
+		
+		for (int v = 0; v < N; v++) {
+			count[v] = inv[v].size();
+			if(count[v] == 0) stack.push(inv[v].element());
+		}
+		
+		for (int i = 0; i < N; i++) {
+			int v;
+			if(stack.isEmpty()) return null;
+			v = stack.pop();
+			list.addLast(v);
+			for(int k : adj[v]) {
+				count[k] -= 1;
+				if(count[k] == 0) stack.push(k);
+			}
+		}
+		return list;
+	}
 }
